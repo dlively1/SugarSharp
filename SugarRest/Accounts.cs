@@ -13,11 +13,39 @@ namespace SugarRest
         /// Retrieve list of Accounts
         /// </summary>
         /// <returns></returns>
-        public AccountResult GetAccount()
+        public AccountResult GetAccounts()
         {
             var request = new RestRequest("Accounts", Method.GET);
-            IRestResponse<AccountResult> response = client.Execute<AccountResult>(request);
-            return response.Data;
+
+            return Execute<AccountResult>(request);
+        }
+
+        /// <summary>
+        /// Search for Accounts
+        /// </summary>
+        /// <param name="query">Search string for accounts if no full text search defaults to name</param>
+        /// <returns></returns>
+        public AccountResult GetAccounts(string query)
+        {
+            var request = new RestRequest("Accounts?q={query}", Method.GET);
+            request.AddUrlSegment("query", query);
+
+            return Execute<AccountResult>(request);
+        }
+
+        /// <summary>
+        /// Search for Accounts
+        /// </summary>
+        /// <param name="query">Search string for accounts if no full text search defaults to name</param>
+        /// <param name="fields">comma seperates list of fields to return</param>
+        /// <returns></returns>
+        public AccountResult GetAccounts(string query, string fields)
+        {
+            var request = new RestRequest("Accounts?q={query}&fields={fields}", Method.GET);
+            request.AddUrlSegment("query", query);
+            request.AddUrlSegment("fields", fields);
+
+            return Execute<AccountResult>(request);
         }
 
         /// <summary>
@@ -29,8 +57,8 @@ namespace SugarRest
         {
             var request = new RestRequest("Accounts/{id}", Method.GET);
             request.AddUrlSegment("id", id);
-            IRestResponse<Account> response = client.Execute<Account>(request);
-            return response.Data;
+
+            return Execute<Account>(request);
         }
 
     }

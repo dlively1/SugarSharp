@@ -4,6 +4,7 @@ using RestSharp;
 using RestSharp.Extensions;
 using RestSharp.Deserializers;
 using SugarRest.Model;
+using SugarRest.Exceptions;
 
 namespace SugarRest
 {
@@ -34,6 +35,8 @@ namespace SugarRest
         /// </summary>
         private RestClient client;
 
+        public SugarException SugarException { get; set; }
+
         /// <summary>
         /// Constructor to create new API Client
         /// </summary>
@@ -60,12 +63,36 @@ namespace SugarRest
 
             if(string.IsNullOrEmpty(tokenResponse.Data.access_token))
             {
-                //@todo - handle exception here
+                throw new SugarException("Auth Failed did not retrieve access token");   
             }
 
             Token = tokenResponse.Data.access_token;
             client.AddDefaultHeader("OAuth-Token",Token);
 
+        }
+
+        public T Execute<T>(RestRequest request) where T : new()
+        {
+            request.OnBeforeDeserialization = (resp) =>
+            {
+                if(((int) resp.StatusCode) >= 400)
+                {
+                    throw new SugarException(resp.ErrorMessage);
+                }
+            };
+
+            var response = client.Execute<T>(request);
+            return response.Data;
+        }
+
+        /// <summary>
+        /// Executes the request
+        /// </summary>
+        /// <param name="request">Request object</param>
+        /// <returns></returns>
+        public IRestResponse Execute(IRestRequest request)
+        {
+            return client.Execute(request);
         }
 
         /// <summary>
@@ -80,15 +107,15 @@ namespace SugarRest
         }
 
         /// <summary>
-        /// Retrieves collection of basic bean properties for the given module
+        /// Gets a Bean for the given module
         /// </summary>
-        /// <param name="module">Name of the module ex. ("Accounts")</param>
-        /// <returns>List of Bean records</returns>
-        public BeanResponse GetBean(string module) 
+        /// <typeparam name="T">Results Object to be serialized</typeparam>
+        /// <param name="module">string module name</param>
+        /// <returns></returns>
+        public T GetBean<T>(string module) where T : new()
         {
             var request = new RestRequest(module, Method.GET);
-            IRestResponse<BeanResponse> response = client.Execute<BeanResponse>(request);
-            return response.Data;
+            return Execute<T>(request);
         }
 
         /// <summary>
@@ -97,14 +124,68 @@ namespace SugarRest
         /// <param name="module">Name of the module ex. ("Accounts")</param>
         /// <param name="id">string ID</param>
         /// <returns>SugarBean</returns>
-        public Bean GetBean(string module, string id)
+        public T GetBean<T>(string module, string id) where T : new ()
         {
             var request = new RestRequest("{module}/{id}", Method.GET);
             request.AddUrlSegment("module", module);
             request.AddUrlSegment("id", id);
-            IRestResponse<Bean> response = client.Execute<Bean>(request);
-            return response.Data;
+
+            return Execute<T>(request);
         }
+
+        /// <summary>
+        /// Creates a record
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="record">anonymous object</param>
+        /// <returns></returns>
+        public string Create(string module, object record)
+        {
+            var request = new RestRequest("{module}", Method.POST);
+            request.AddUrlSegment("module", module);
+
+            addParamatersFromObject(request, record);            
+
+            Bean bean = Execute<Bean>(request);
+            return bean.id;
+        }
+
+        /// <summary>
+        /// Updates an individual record
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="id">Records ID</param>
+        /// <param name="record">anonymous object</param>
+        /// <returns></returns>
+        public string Update(string module, string id, object record)
+        {
+            var request = new RestRequest("{module}/{id}", Method.PUT);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("id", id);
+
+            addParamatersFromObject(request, record);
+
+            Bean bean = Execute<Bean>(request);
+            return bean.id;
+        }
+
+        /// <summary>
+        /// Converts anonymous object into key value paramaters for Request
+        /// </summary>
+        /// <param name="request">Request object</param>
+        /// <param name="record">anonymous object of properties</param>
+        private void addParamatersFromObject(IRestRequest request, object record)
+        {
+            var type = record.GetType();
+            var props = type.GetProperties();
+
+            foreach (var prop in props)
+            {
+                request.AddParameter(prop.Name, prop.GetValue(record,null));
+            }
+        }
+
+
 
     }
 }

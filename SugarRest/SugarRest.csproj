@@ -45,10 +45,12 @@
     <Compile Include="Accounts.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountResult.cs" />
-    <Compile Include="Model\BaseResponse.cs" />
-    <Compile Include="Model\Bean.cs" />
     <Compile Include="Model\BeanListBase.cs" />
+    <Compile Include="Model\Bean.cs" />
+    <Compile Include="Model\BeanResponse.cs" />
+    <Compile Include="Model\Company.cs" />
     <Compile Include="Model\EmailAddress.cs" />
+    <Compile Include="Exceptions\SugarException.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\TokenResponse.cs" />
     <Compile Include="SugarClient.cs" />

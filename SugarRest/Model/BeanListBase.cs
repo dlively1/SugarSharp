@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace SugarRest.Model
 {
-    public class BeanResponse : BeanListBase
+    public class BeanListBase
     {
-        public List<Bean> records { get; set; }
+        public int next_offset { get; set; }
     }
-
-
 }
