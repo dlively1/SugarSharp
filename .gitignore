@@ -158,3 +158,6 @@ $RECYCLE.BIN/
 #nuget
 packages/*
 !packages/repositories.config
+
+#testing console application
+SugarRestTesting

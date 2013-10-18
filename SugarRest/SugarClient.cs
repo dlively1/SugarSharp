@@ -162,8 +162,25 @@ namespace SugarRest
             var request = new RestRequest("{module}/{id}", Method.PUT);
             request.AddUrlSegment("module", module);
             request.AddUrlSegment("id", id);
+            request.RequestFormat = DataFormat.Json;
 
-            addParamatersFromObject(request, record);
+            request.AddBody(record);
+
+            Bean bean = Execute<Bean>(request);
+            return bean.id;
+        }
+
+        /// <summary>
+        /// Delete record
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="id">Record ID</param>
+        /// <returns>ID of deleted record</returns>
+        public string Delete(string module, string id)
+        {
+            var request = new RestRequest("{module}/{id}", Method.DELETE);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("id", id);
 
             Bean bean = Execute<Bean>(request);
             return bean.id;
