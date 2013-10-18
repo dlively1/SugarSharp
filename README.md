@@ -63,3 +63,22 @@ catch (SugarException E)
 }
 ```
 
+
+###Update Record
+
+```c#
+string recordID = "<<record_id>>";
+
+try
+{
+  Sugar.Update("Accounts",recordID, new {
+    description = "Add fields to update in annonymous object",
+    phone_office = "555-333-3333"
+  });
+}
+catch (SugarException E)
+{
+  //handle Exception
+}
+
+```
