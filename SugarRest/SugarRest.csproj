@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accounts.cs" />
+    <Compile Include="Favorite.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountResult.cs" />
     <Compile Include="Model\BeanListBase.cs" />
