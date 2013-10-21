@@ -187,6 +187,68 @@ namespace SugarRest
         }
 
         /// <summary>
+        /// Create a relationship between two existing records
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="parentID">Parent Record ID</param>
+        /// <param name="relationshipName">Link name between modules</param>
+        /// <param name="childID">Child Record ID</param>
+        /// <returns>Related Record ID</returns>
+        public string Link(string module, string parentID, string relationshipName, string childID)
+        {
+            var request = new RestRequest("{module}/{parentID}/link/{link}/{childID}", Method.POST);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("parentID", parentID);
+            request.AddUrlSegment("link", relationshipName);
+            request.AddUrlSegment("childID", childID);
+
+
+            LinkSetResult result = Execute<LinkSetResult>(request);
+            return result.related_record.id;
+        }
+
+        /// <summary>
+        /// Relate record to parent record
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="parentID">Parent Record ID</param>
+        /// <param name="relationshipName">Link Name</param>
+        /// <param name="record">Annonoymous Object Record</param>
+        /// <returns>Record ID</returns>
+        public string Link(string module, string parentID, string relationshipName, object record)
+        {
+            var request = new RestRequest("{module}/{parentID}/link/{link}", Method.POST);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("parentID", parentID);
+            request.AddUrlSegment("link", relationshipName);
+
+            addParamatersFromObject(request, record);
+
+            LinkSetResult result = Execute<LinkSetResult>(request);
+            return result.related_record.id;
+        }
+
+        /// <summary>
+        /// Remove an Existing Relationship
+        /// </summary>
+        /// <param name="module">Parent Module Name</param>
+        /// <param name="parentID">Parent Record ID</param>
+        /// <param name="relationshipName">Link Name</param>
+        /// <param name="childID">Child Record ID</param>
+        /// <returns>Child Record ID</returns>
+        public string RemoveLink(string module, string parentID, string relationshipName, string childID)
+        {
+            var request = new RestRequest("{module}/{parentID}/link/{link}/{childID}", Method.DELETE);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("parentID", parentID);
+            request.AddUrlSegment("link", relationshipName);
+            request.AddUrlSegment("childID", childID);
+
+            LinkSetResult result = Execute<LinkSetResult>(request);
+            return result.related_record.id;
+        }
+
+        /// <summary>
         /// Converts anonymous object into key value paramaters for Request
         /// </summary>
         /// <param name="request">Request object</param>

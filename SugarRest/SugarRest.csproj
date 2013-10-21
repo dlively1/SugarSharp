@@ -29,6 +29,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
@@ -52,6 +59,7 @@
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\EmailAddress.cs" />
     <Compile Include="Exceptions\SugarException.cs" />
+    <Compile Include="Model\LinkSetResult.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\TokenResponse.cs" />
     <Compile Include="SugarClient.cs" />
