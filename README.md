@@ -28,13 +28,19 @@ Create records with anonymous objects
 ```c#
 string returnID = "";
 
+List<string> multiselect_example = new List<string>();
+multiselect_example.Add("A");
+multiselect_example.Add("B");
+multiselect_example.Add("C");
+
 try
 {
   returnID = Sugar.Create("Accounts", new
   {
       name = "Acme Inc",
       description = "full text description",
-      phone_office = "555-555-5555"
+      phone_office = "555-555-5555",
+      multiselect_example_c = SugarList.CreateMultiSelect(multiselect_example)
   });
 }
 catch (SugarException E)
