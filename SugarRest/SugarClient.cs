@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text;
+﻿using System.Collections.Generic;
 using RestSharp;
-using RestSharp.Extensions;
-using RestSharp.Deserializers;
 using SugarRest.Model;
 using SugarRest.Exceptions;
+using SugarRest.Deserializers;
+using Newtonsoft.Json.Linq;
 
 namespace SugarRest
 {
@@ -38,6 +37,11 @@ namespace SugarRest
         public SugarException SugarException { get; set; }
 
         /// <summary>
+        /// Used in serialization of unknown responses
+        /// </summary>
+        private DynamicJsonDeserializer dynamicSerializer;
+
+        /// <summary>
         /// Constructor to create new API Client
         /// </summary>
         /// <param name="url">URL to rest end point</param>
@@ -52,6 +56,8 @@ namespace SugarRest
             client = new RestClient();
             client.UserAgent = "SugarSharp";
             client.BaseUrl = BaseUrl;
+
+            dynamicSerializer = new DynamicJsonDeserializer();
 
             var request = new RestRequest("oauth2/token", Method.POST);
             request.AddParameter("grant_type", "password");
@@ -246,6 +252,19 @@ namespace SugarRest
 
             LinkSetResult result = Execute<LinkSetResult>(request);
             return result.related_record.id;
+        }
+
+        public SugarList GetList(string module, string field)
+        {
+            var request = new RestRequest("{module}/enum/{field}", Method.GET);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("field", field);
+
+
+            var response = Execute(request);
+            var list = dynamicSerializer.Deserialize<JObject>(response);
+
+            return new SugarList(list.ToObject<Dictionary<string, string>>());
         }
 
         /// <summary>
