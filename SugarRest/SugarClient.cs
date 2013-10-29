@@ -113,14 +113,52 @@ namespace SugarRest
         }
 
         /// <summary>
-        /// Gets a Bean for the given module
+        /// Gets a list of records for the given module
         /// </summary>
         /// <typeparam name="T">Results Object to be serialized</typeparam>
         /// <param name="module">string module name</param>
         /// <returns></returns>
         public BeanListResponse<T> GetBeans<T>(string module) where T : new ()
         {
+            SearchOptions options = new SearchOptions();
+            options.max_num = 20;
+
+            return GetBeans<T>(module, options);
+        }
+
+        /// <summary>
+        /// Gets a list of records for the given module
+        /// </summary>
+        /// <typeparam name="T">Bean Type</typeparam>
+        /// <param name="module">Module Name</param>
+        /// <param name="options">SearchOptions object</param>
+        /// <returns>next offset and list of records as BeanListResponse object</returns>
+        public BeanListResponse<T> GetBeans<T>(string module, SearchOptions options) where T : new()
+        {
             var request = new RestRequest(module, Method.GET);
+
+            //Handle query string paramater options
+            if (! string.IsNullOrEmpty(options.query))
+                request.AddParameter("q", options.query);
+
+            if (options.max_num.HasValue && options.max_num.Value > 0)
+                request.AddParameter("max_num", options.max_num);
+
+            if (options.favorites)
+                request.AddParameter("favorites", options.favorites);
+
+            if (options.deleted)
+                request.AddParameter("deleted", options.deleted);
+
+            if (options.offset.HasValue && options.offset.Value > 0)
+                request.AddParameter("offset", options.offset);
+
+            if (! string.IsNullOrEmpty(options.fields))
+                request.AddParameter("fields", options.fields);
+
+            if (! string.IsNullOrEmpty(options.order_by))
+                request.AddParameter("order_by", options.order_by);
+
 
             return Execute<BeanListResponse<T>>(request);
         }
@@ -255,6 +293,12 @@ namespace SugarRest
             return result.related_record.id;
         }
 
+        /// <summary>
+        /// Gets a Sugar dropdown list
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="field">field name</param>
+        /// <returns> SugarList object </returns>
         public SugarList GetList(string module, string field)
         {
             var request = new RestRequest("{module}/enum/{field}", Method.GET);

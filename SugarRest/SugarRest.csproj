@@ -69,6 +69,7 @@
     <Compile Include="Model\LinkSetResult.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\TokenResponse.cs" />
+    <Compile Include="SearchOptions.cs" />
     <Compile Include="SugarClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SugarList.cs" />
