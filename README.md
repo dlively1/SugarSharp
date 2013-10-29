@@ -7,7 +7,6 @@ Sugar7 C# Rest Client
 Todo
 * Finish data models for core objects
 * Unit Testing
-* Other webservice resources
 
 
 ###Creating Connection
@@ -88,3 +87,6 @@ catch (SugarException E)
 }
 
 ```
+
+Check out the [Wiki Pages](https://github.com/dlively1/SugarSharp/wiki/_pages) page for more examples
+
