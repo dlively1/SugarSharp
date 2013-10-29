@@ -118,10 +118,11 @@ namespace SugarRest
         /// <typeparam name="T">Results Object to be serialized</typeparam>
         /// <param name="module">string module name</param>
         /// <returns></returns>
-        public T GetBean<T>(string module) where T : new()
+        public BeanListResponse<T> GetBeans<T>(string module) where T : new ()
         {
             var request = new RestRequest(module, Method.GET);
-            return Execute<T>(request);
+
+            return Execute<BeanListResponse<T>>(request);
         }
 
         /// <summary>

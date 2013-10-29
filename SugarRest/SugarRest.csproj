@@ -61,6 +61,7 @@
     <Compile Include="Model\AccountResult.cs" />
     <Compile Include="Model\BeanListBase.cs" />
     <Compile Include="Model\Bean.cs" />
+    <Compile Include="Model\BeanListResponse.cs" />
     <Compile Include="Model\BeanResponse.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\EmailAddress.cs" />
