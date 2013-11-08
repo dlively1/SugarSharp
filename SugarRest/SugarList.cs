@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SugarRest.Extensions;
 
 namespace SugarRest
 {
@@ -54,8 +55,7 @@ namespace SugarRest
         /// <returns>Formatted String</returns>
         public static string CreateMultiSelect(IList<string> values)
         {
-            values = values.Select(value => "^" + value + "^").ToList();
-            return string.Join(",", values);
+            return values.ToSugarMultiSelect();
         }
 
     }

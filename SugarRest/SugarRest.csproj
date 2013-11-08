@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Accounts.cs" />
     <Compile Include="Deserializers\DynamicJsonDeserializer.cs" />
+    <Compile Include="Extensions\SugarExtensions.cs" />
     <Compile Include="Favorite.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountResult.cs" />
