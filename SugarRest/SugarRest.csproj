@@ -67,6 +67,7 @@
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\EmailAddress.cs" />
     <Compile Include="Exceptions\SugarException.cs" />
+    <Compile Include="Model\ErrorResponse.cs" />
     <Compile Include="Model\LinkSetResult.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\TokenResponse.cs" />
