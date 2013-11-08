@@ -3,6 +3,7 @@ using RestSharp;
 using SugarRest.Model;
 using SugarRest.Exceptions;
 using SugarRest.Deserializers;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace SugarRest
@@ -83,7 +84,8 @@ namespace SugarRest
             {
                 if(((int) resp.StatusCode) >= 400)
                 {
-                    throw new SugarException(resp.ErrorMessage);
+                    ErrorResponse error = JsonConvert.DeserializeObject<ErrorResponse>(resp.Content);
+                    throw new SugarException(error.error_message);
                 }
             };
 
