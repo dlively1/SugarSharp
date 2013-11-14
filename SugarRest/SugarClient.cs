@@ -31,6 +31,11 @@ namespace SugarRest
         private string Token { get; set; }
 
         /// <summary>
+        /// Oauth Refresh token for authentication
+        /// </summary>
+        private string RefreshToken { get; set; }
+
+        /// <summary>
         /// RestClient to handle API interactions
         /// </summary>
         private RestClient client;
@@ -74,6 +79,8 @@ namespace SugarRest
             }
 
             Token = tokenResponse.Data.access_token;
+            RefreshToken = tokenResponse.Data.refresh_token;
+
             client.AddDefaultHeader("OAuth-Token",Token);
 
         }
