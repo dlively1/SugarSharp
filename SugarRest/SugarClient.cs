@@ -81,12 +81,18 @@ namespace SugarRest
             Token = tokenResponse.Data.access_token;
             RefreshToken = tokenResponse.Data.refresh_token;
 
-            client.AddDefaultHeader("OAuth-Token",Token);
-
         }
 
         public T Execute<T>(RestRequest request) where T : new()
         {
+
+            if (string.IsNullOrEmpty(Token))
+            {
+                throw new SugarException("Invalid Token Exception");
+            }
+
+            request.AddHeader("OAuth-Token", Token);
+
             request.OnBeforeDeserialization = (resp) =>
             {
                 if(((int) resp.StatusCode) >= 400)
@@ -119,6 +125,17 @@ namespace SugarRest
             var request = new RestRequest("ping", Method.GET);
             IRestResponse response = client.Execute(request);
             return response.Content;    
+        }
+
+        /// <summary>
+        /// Expire the users token
+        /// </summary>
+        public void Logout()
+        {
+            var request = new RestRequest("oauth2/logout", Method.POST);
+            client.Execute(request);
+
+            Token = string.Empty;
         }
 
         /// <summary>
