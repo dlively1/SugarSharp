@@ -58,6 +58,7 @@
     <Compile Include="Deserializers\DynamicJsonDeserializer.cs" />
     <Compile Include="Extensions\SugarExtensions.cs" />
     <Compile Include="Favorite.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="Model\Account.cs" />
     <Compile Include="Model\AccountResult.cs" />
     <Compile Include="Model\BeanListBase.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Model\EmailAddress.cs" />
     <Compile Include="Exceptions\SugarException.cs" />
     <Compile Include="Model\ErrorResponse.cs" />
+    <Compile Include="Model\FileUploadResponse.cs" />
     <Compile Include="Model\LinkSetResult.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="Model\TokenResponse.cs" />
