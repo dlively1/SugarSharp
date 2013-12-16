@@ -152,6 +152,11 @@ namespace SugarRest
             return GetBeans<T>(module, options);
         }
 
+        public BeanListResponse<T> GetBeans<T>(SugarModule module) where T : new()
+        {
+            return GetBeans<T>(SugarHelpers.GetModuleString(module));
+        }
+
         /// <summary>
         /// Gets a list of records for the given module
         /// </summary>
@@ -189,6 +194,11 @@ namespace SugarRest
             return Execute<BeanListResponse<T>>(request);
         }
 
+        public BeanListResponse<T> GetBeans<T>(SugarModule module, SearchOptions options) where T : new()
+        {
+            return GetBeans<T>(SugarHelpers.GetModuleString(module), options);
+        }
+
         /// <summary>
         /// Gets generic bean properties for a given ID
         /// </summary>
@@ -204,6 +214,11 @@ namespace SugarRest
             return Execute<T>(request);
         }
 
+        public T GetBean<T>(SugarModule module, string id) where T : new()
+        {
+            return GetBean<T>(SugarHelpers.GetModuleString(module), id);
+        }
+
         /// <summary>
         /// Create a record
         /// </summary>
@@ -212,8 +227,7 @@ namespace SugarRest
         /// <returns>Created Record Id</returns>
         public string Create(SugarModule module, object record)
         {
-            string moduleName = module.ToString();
-            return this.Create(moduleName, record);
+            return Create(SugarHelpers.GetModuleString(module), record);
         }
 
         /// <summary>
@@ -236,10 +250,22 @@ namespace SugarRest
         /// <summary>
         /// Updates an individual record
         /// </summary>
+        /// <param name="module">Module Enum</param>
+        /// <param name="id">Record Id</param>
+        /// <param name="record">object</param>
+        /// <returns>record ID</returns>
+        public string Update(SugarModule module, string id, object record)
+        {;
+            return Update(SugarHelpers.GetModuleString(module), id, record);
+        }
+
+        /// <summary>
+        /// Updates an individual record
+        /// </summary>
         /// <param name="module">Module Name</param>
         /// <param name="id">Records ID</param>
         /// <param name="record">anonymous object</param>
-        /// <returns></returns>
+        /// <returns>record Id</returns>
         public string Update(string module, string id, object record)
         {
             var request = new RestRequest("{module}/{id}", Method.PUT);
@@ -269,6 +295,11 @@ namespace SugarRest
             return bean.id;
         }
 
+        public string Delete(SugarModule module, string id)
+        {
+            return Delete(SugarHelpers.GetModuleString(module), id);
+        }
+
         /// <summary>
         /// Create a relationship between two existing records
         /// </summary>
@@ -288,6 +319,11 @@ namespace SugarRest
 
             LinkSetResult result = Execute<LinkSetResult>(request);
             return result.related_record.id;
+        }
+
+        public string Link(SugarModule module, string parentID, string relationshipName, string childID)
+        {
+            return Link(SugarHelpers.GetModuleString(module), parentID, relationshipName, childID);
         }
 
         /// <summary>
@@ -311,6 +347,11 @@ namespace SugarRest
             return result.related_record.id;
         }
 
+        public string Link(SugarModule module, string parentId, string relationshipName, object record)
+        {
+            return Link(SugarHelpers.GetModuleString(module), parentId, relationshipName, record);
+        }
+
         /// <summary>
         /// Remove an Existing Relationship
         /// </summary>
@@ -331,6 +372,11 @@ namespace SugarRest
             return result.related_record.id;
         }
 
+        public string RemoveLink(SugarModule module, string parentID, string relationshipName, string childId)
+        {
+            return RemoveLink(SugarHelpers.GetModuleString(module), parentID, relationshipName, childId);
+        }
+
         /// <summary>
         /// Gets a Sugar dropdown list
         /// </summary>
@@ -348,6 +394,11 @@ namespace SugarRest
             var list = dynamicSerializer.Deserialize<JObject>(response);
 
             return new SugarList(list.ToObject<Dictionary<string, string>>());
+        }
+
+        public SugarList GetList(SugarModule module, string field)
+        {
+            return GetList(SugarHelpers.GetModuleString(module), field);
         }
 
         /// <summary>
