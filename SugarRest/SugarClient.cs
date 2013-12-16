@@ -205,11 +205,23 @@ namespace SugarRest
         }
 
         /// <summary>
+        /// Create a record
+        /// </summary>
+        /// <param name="module">SugarModule Enum</param>
+        /// <param name="record">object</param>
+        /// <returns>Created Record Id</returns>
+        public string Create(SugarModule module, object record)
+        {
+            string moduleName = module.ToString();
+            return this.Create(moduleName, record);
+        }
+
+        /// <summary>
         /// Creates a record
         /// </summary>
         /// <param name="module">Module Name</param>
         /// <param name="record">anonymous object</param>
-        /// <returns></returns>
+        /// <returns>Created Record Id</returns>
         public string Create(string module, object record)
         {
             var request = new RestRequest("{module}", Method.POST);

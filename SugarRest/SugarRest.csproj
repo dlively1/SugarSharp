@@ -78,6 +78,7 @@
     <Compile Include="SugarClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SugarList.cs" />
+    <Compile Include="SugarModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
