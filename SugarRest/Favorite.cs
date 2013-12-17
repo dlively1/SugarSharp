@@ -4,7 +4,6 @@ using RestSharp;
 using RestSharp.Extensions;
 using RestSharp.Deserializers;
 using SugarRest.Model;
-using SugarRest.Exceptions;
 
 namespace SugarRest
 {

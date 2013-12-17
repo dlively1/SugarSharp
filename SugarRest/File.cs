@@ -5,7 +5,6 @@ using RestSharp;
 using RestSharp.Extensions;
 using RestSharp.Deserializers;
 using SugarRest.Model;
-using SugarRest.Exceptions;
 using Newtonsoft.Json.Linq;
 
 namespace SugarRest

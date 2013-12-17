@@ -65,7 +65,7 @@
     <Compile Include="Model\BeanResponse.cs" />
     <Compile Include="Model\Company.cs" />
     <Compile Include="Model\EmailAddress.cs" />
-    <Compile Include="Exceptions\SugarException.cs" />
+    <Compile Include="SugarException.cs" />
     <Compile Include="Model\ErrorResponse.cs" />
     <Compile Include="Model\FileResponse.cs" />
     <Compile Include="Model\FileUploadResponse.cs" />

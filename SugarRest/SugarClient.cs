@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using RestSharp;
 using SugarRest.Model;
-using SugarRest.Exceptions;
 using SugarRest.Deserializers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

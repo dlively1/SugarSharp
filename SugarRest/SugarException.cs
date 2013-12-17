@@ -2,7 +2,7 @@
 using System.Net;
 using RestSharp;
 
-namespace SugarRest.Exceptions
+namespace SugarRest
 {
     public class SugarException : Exception
     {
