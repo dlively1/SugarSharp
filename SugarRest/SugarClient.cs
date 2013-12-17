@@ -53,18 +53,41 @@ namespace SugarRest
         /// <param name="url">URL to rest end point</param>
         /// <param name="username">SugarCRM Username</param>
         /// <param name="password">SugarCRM Password</param>
-        public SugarClient(string url, string username, string password)
+        public SugarClient(string url, string username, string password) : this()
         {
             BaseUrl = url;
             Username = username;
             Password = password;
 
+            client.BaseUrl = BaseUrl;
+            Login();//avoid breaking change ... @todo - client creation will be moved into factory method
+        }
+
+        /// <summary>
+        /// Constructor to create client given a token
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="token"></param>
+        public SugarClient(string url, string token) : this()
+        {
+            BaseUrl = url;
+            client.BaseUrl = BaseUrl;
+            Token = token;
+        }
+
+        /// <summary>
+        /// Private constructor
+        /// Performs base setup
+        /// </summary>
+        private SugarClient()
+        {
             client = new RestClient();
             client.UserAgent = "SugarSharp";
-            client.BaseUrl = BaseUrl;
-
             dynamicSerializer = new DynamicJsonDeserializer();
+        }
 
+        public void Login()
+        {
             var request = new RestRequest("oauth2/token", Method.POST);
             request.AddParameter("grant_type", "password");
             request.AddParameter("client_id", "sugar");
@@ -73,15 +96,20 @@ namespace SugarRest
 
             IRestResponse<TokenResponse> tokenResponse = client.Execute<TokenResponse>(request);
 
-            if(string.IsNullOrEmpty(tokenResponse.Data.access_token))
+            if (string.IsNullOrEmpty(tokenResponse.Data.access_token))
             {
-                throw new SugarException("Auth Failed did not retrieve access token");   
+                throw new SugarException("Auth Failed did not retrieve access token");
             }
 
             Token = tokenResponse.Data.access_token;
             RefreshToken = tokenResponse.Data.refresh_token;
-
         }
+
+        public string GetToken()
+        {
+            return Token;
+        }
+
 
         public T Execute<T>(RestRequest request) where T : new()
         {
