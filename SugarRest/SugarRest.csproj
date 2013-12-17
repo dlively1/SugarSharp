@@ -54,13 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts.cs" />
     <Compile Include="Deserializers\DynamicJsonDeserializer.cs" />
     <Compile Include="Extensions\SugarExtensions.cs" />
     <Compile Include="Favorite.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Model\Account.cs" />
-    <Compile Include="Model\AccountResult.cs" />
     <Compile Include="Model\BeanListBase.cs" />
     <Compile Include="Model\Bean.cs" />
     <Compile Include="Model\BeanListResponse.cs" />
