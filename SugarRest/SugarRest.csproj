@@ -59,6 +59,7 @@
     <Compile Include="Favorite.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Model\Account.cs" />
+    <Compile Include="Model\AsyncBeanResponse.cs" />
     <Compile Include="Model\BeanListBase.cs" />
     <Compile Include="Model\Bean.cs" />
     <Compile Include="Model\BeanListResponse.cs" />
