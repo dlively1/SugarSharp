@@ -285,14 +285,14 @@ namespace SugarRest
         /// <param name="module">Name of the module</param>
         /// <param name="record">anonymous object</param>
         /// <param name="callback">Method to call upon completion. First paramater tells if request was sucessful</param>
-        public void CreateAsync(string module, object record, Action<bool, Bean> callback)
+        public void CreateAsync(string module, object record, Action<bool, String> callback)
         {
             var request = new RestRequest("{module}", Method.POST);
             request.AddUrlSegment("module", module);
 
             addParamatersFromObject(request, record);
 
-            ExecuteAsync<Bean>(request, (success, response) => { callback(success, response); });
+            ExecuteAsync<Bean>(request, (success, response) => { callback(success, response.id); });
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace SugarRest
         /// <param name="id">record Id</param>
         /// <param name="record">anonymous object defining record</param>
         /// <param name="callback">method called upon completion</param>
-        public void UpdateAsync(string module,string id, object record, Action<bool, Bean> callback)
+        public void UpdateAsync(string module,string id, object record, Action<bool, String> callback)
         {
             var request = new RestRequest("{module}/{id}", Method.PUT);
             request.AddUrlSegment("module", module);
@@ -330,7 +330,7 @@ namespace SugarRest
             request.RequestFormat = DataFormat.Json;
 
             request.AddBody(record);
-            ExecuteAsync<Bean>(request, (success, response) => { callback(success, response); });
+            ExecuteAsync<Bean>(request, (success, response) => { callback(success, response.id); });
         }
 
         /// <summary>
@@ -347,6 +347,21 @@ namespace SugarRest
 
             Bean bean = Execute<Bean>(request);
             return bean.id;
+        }
+
+        /// <summary>
+        /// Delete a record async
+        /// </summary>
+        /// <param name="module">Module Name</param>
+        /// <param name="id">Record ID</param>
+        /// <param name="callback">method called upon completion</param>
+        public void DeleteAsync(string module, string id, Action<bool, String> callback)
+        {
+            var request = new RestRequest("{module}/{id}", Method.DELETE);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("id", id);
+
+            ExecuteAsync<Bean>(request, (success, response) => { callback(success, response.id); });
         }
 
         /// <summary>
