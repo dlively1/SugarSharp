@@ -48,31 +48,35 @@ catch (SugarException E)
 }
 ```
 
-Create records with defined object types
+Create records asynchronously
 
 ```c#
-string returnID = "";
-
-Account Account = new Account();
-Account.name = "Acme Inc";
-Account.description = "full text description";
-Account.phone_office = "555-555-5555";
-
-try
+SugarClient Sugar = new SugarClient(url, username, passsword);
+            
+object bean = new
 {
-  returnID = Sugar.Create("Accounts", Account);
-}
-catch (SugarException E)
+  name = "Async Testing",
+  phone_office = "333-443-3552",
+  description = "Testing out async method calls from C#"
+};
+
+
+Sugar.CreateAsync("Accounts", bean, (success, recordId) =>
 {
-  //handle exception
-}
+    if (success)
+    {
+      Console.WriteLine("1st result {0}", recordId);
+    }
+
+});
+            
 ```
 
 
 ###Update Record
 
 ```c#
-string recordID = "<<record_id>>";
+String recordID = "<<record_id>>";
 
 try
 {
@@ -85,6 +89,30 @@ catch (SugarException E)
 {
   //handle Exception
 }
+
+```
+
+Update Records asynchronously
+
+```c#
+
+String recordID = "<<record_id>>";
+
+object bean = new
+{
+  name = "Async Update Test Account",
+  phone_office = "333-443-3552",
+  description = "Update the record description"
+};
+
+Sugar.UpdateAsync("Accounts",recordID, bean, (success, recordId) =>
+{
+    if (success)
+    {
+        Console.WriteLine("1st result {0}", recordId);
+    }
+
+});
 
 ```
 
