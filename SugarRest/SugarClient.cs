@@ -385,6 +385,21 @@ namespace SugarRest
             return result.related_record.id;
         }
 
+        public string UpdateLink(string module, string parentID, string relationshipName, string childID, object relatedRecord)
+        {
+            var request = new RestRequest("{module}/{parentID}/link/{link}/{childID}", Method.PUT);
+            request.AddUrlSegment("module", module);
+            request.AddUrlSegment("parentID", parentID);
+            request.AddUrlSegment("link", relationshipName);
+            request.AddUrlSegment("childID", childID);
+
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(relatedRecord);
+
+            LinkSetResult result = Execute<LinkSetResult>(request);
+            return result.related_record.id;
+        }
+
         /// <summary>
         /// Relate record to parent record
         /// </summary>
