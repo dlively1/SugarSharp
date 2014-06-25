@@ -94,6 +94,7 @@ namespace SugarRest
             request.AddParameter("client_id", "sugar");
             request.AddParameter("username", Username);
             request.AddParameter("password", Password);
+            request.AddParameter("platform", "api");
 
             IRestResponse<TokenResponse> tokenResponse = client.Execute<TokenResponse>(request);
 
