@@ -152,13 +152,13 @@ namespace SugarRest
             request.AddHeader("OAuth-Token", Token);
 
             request.OnBeforeDeserialization = (resp) =>
-			{
-				if (((int)resp.StatusCode) >= 400)
-				{
+	    {
+		if (((int)resp.StatusCode) >= 400)
+		{
                     //@todo -- determine better way to handle async failures
                     resp.Content = null;
                 }
-			};
+	    };
 
 
             client.ExecuteAsync<T>(request, (response) => { callback((int)response.StatusCode < 400, response.Data); });
