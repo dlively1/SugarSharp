@@ -9,7 +9,7 @@ Todo
 * Unit Testing
 
 
-###Creating Connection
+### Creating Connection
 
 ```c#
 string url = "https://instanceurl/rest/v10/";
@@ -21,7 +21,7 @@ SugarClient Sugar = new SugarClient(url, username, password);
 ```
 
 
-###Create Record
+### Create Record
 
 Create records with anonymous objects
 ```c#
@@ -73,7 +73,7 @@ Sugar.CreateAsync("Accounts", bean, (success, recordId) =>
 ```
 
 
-###Update Record
+### Update Record
 
 ```c#
 String recordID = "<<record_id>>";
