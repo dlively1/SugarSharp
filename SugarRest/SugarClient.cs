@@ -186,6 +186,28 @@ namespace SugarRest
         }
 
         /// <summary>
+        /// /// <summary>
+        /// Sample API endpoint with token, good for testing
+        /// </summary>
+        /// <returns>String "pong"</returns>
+        /// </summary>
+        /// <returns></returns>
+        public string GetPingWithToken()
+        {
+            var request = new RestRequest("ping", Method.GET);
+
+            if (string.IsNullOrEmpty(Token))
+            {
+                throw new SugarException("Invalid Token Exception");
+            }
+
+            request.AddHeader("OAuth-Token", Token);
+
+            IRestResponse response = Execute(request);
+            return response.Content;
+        }
+
+        /// <summary>
         /// Expire the users token
         /// </summary>
         public void Logout()
@@ -224,6 +246,11 @@ namespace SugarRest
             //Handle query string paramater options
             if (! string.IsNullOrEmpty(options.query))
                 request.AddParameter("q", options.query);
+
+            if (!string.IsNullOrEmpty(options.filter))
+            {
+                request.AddParameter("filter", options.filter);
+            }
 
             if (options.max_num.HasValue && options.max_num.Value > 0)
                 request.AddParameter("max_num", options.max_num);
